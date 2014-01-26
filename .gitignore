@@ -130,7 +130,8 @@ publish/
 
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
-#packages/
+packages/
+packages.config
 
 # Windows Azure Build Output
 csx
@@ -181,7 +182,6 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
-
 
 #############
 ## Python
