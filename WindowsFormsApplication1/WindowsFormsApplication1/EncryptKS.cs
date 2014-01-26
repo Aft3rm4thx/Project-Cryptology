@@ -49,7 +49,7 @@ namespace WindowsFormsApplication1
             int y = input.Length;
             //char[] array = label5.Text.ToCharArray();
             ArrayList array = new ArrayList();
-            array.Add(label5.Text);
+            array.AddRange(label5.Text.ToCharArray());
             label8.Text = Convert.ToString(y);
             label6.Text = input;
             do
