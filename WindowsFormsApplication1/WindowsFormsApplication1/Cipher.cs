@@ -8,7 +8,8 @@ namespace WindowsFormsApplication1
 {
     class Cipher
     {
-        private const String _ALPHABET_ = "abcdefghijklmnopqrstuvwxyz";
+        private Dictionary<char, char> _keyMap = new Dictionary<char, char>();
+        private const string _ALPHABET_ = "abcdefghijklmnopqrstuvwxyz";          
         private char[] _keyword;
 
         public Cipher(String keyword)
@@ -20,26 +21,44 @@ namespace WindowsFormsApplication1
         {
             get
             {
-                return _keyword.ToString();
+                string temp = "";
+                foreach(char c in _keyword) 
+                {
+                    temp += c;
+                }
+                return temp;
             }
             set
             {
+                if (_keyMap.Count() > 0) _keyMap.Clear();
                 /* Creates a cipher code that has only 26 characters. this is IMPORTANT,
                  * Because it will be used to encode and decode every input.
                  * 
                  */
-                _keyword = (value + _ALPHABET_).Distinct().ToArray<char>();
+                _keyword = (value + _ALPHABET_).ToLower().Distinct().ToArray<char>();
+
+                char[] tempAlpha = _ALPHABET_.ToCharArray();
+                for (int i = 0; i < _ALPHABET_.Count() && i < _keyword.Count(); i++)
+                {
+                    _keyMap.Add(tempAlpha[i], _keyword[i]);
+                }
             }
         }
 
         public string Encode(String input)
-        {
+        {            
             string encoded = "";
-            foreach (char c in input.ToCharArray())
+            foreach (char c in input.ToLower())
             {
-                int index = _ALPHABET_.IndexOf(c);
-                encoded += _keyword[index];                
-                
+                //Make sure its a letter before translating it
+                if (char.IsLetter(c))
+                {
+                    encoded += _keyMap[c];
+                }
+                else //Otherwise, we just add it back into the mix.
+                {
+                    encoded += c;
+                }
             }
             return encoded;
         }
@@ -47,10 +66,17 @@ namespace WindowsFormsApplication1
         public string Decode(String input)
         {
             string decoded = "";
-            foreach (Char c in input)
+            foreach (char c in input.ToLower())
             {
-                decoded += _ALPHABET_.ToCharArray()[_keyword.ToString().IndexOf(c) - 1];
-
+                //Make sure its a letter before translating it
+                if (char.IsLetter(c))
+                {
+                    decoded += _keyMap[c];
+                }
+                else //Otherwise, we just add it back into the mix.
+                {
+                    decoded += c;
+                }
             }
             return decoded;
         }
