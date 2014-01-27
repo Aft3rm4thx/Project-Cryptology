@@ -9,6 +9,7 @@ namespace WindowsFormsApplication1
     class Cipher
     {
         private Dictionary<char, char> _keyMap = new Dictionary<char, char>();
+        private Dictionary<char, char> _alphMap = new Dictionary<char, char>();
         private const string _ALPHABET_ = "abcdefghijklmnopqrstuvwxyz";          
         private char[] _keyword;
 
@@ -31,6 +32,7 @@ namespace WindowsFormsApplication1
             set
             {
                 if (_keyMap.Count() > 0) _keyMap.Clear();
+                if (_alphMap.Count() > 0) _alphMap.Clear();
                 /* Creates a cipher code that has only 26 characters. this is IMPORTANT,
                  * Because it will be used to encode and decode every input.
                  * 
@@ -41,6 +43,7 @@ namespace WindowsFormsApplication1
                 for (int i = 0; i < _ALPHABET_.Count() && i < _keyword.Count(); i++)
                 {
                     _keyMap.Add(tempAlpha[i], _keyword[i]);
+                    _alphMap.Add(_keyword[i], tempAlpha[i]);
                 }
             }
         }
@@ -71,7 +74,7 @@ namespace WindowsFormsApplication1
                 //Make sure its a letter before translating it
                 if (char.IsLetter(c))
                 {
-                    decoded += _keyMap[c];
+                    decoded += _alphMap[c];
                 }
                 else //Otherwise, we just add it back into the mix.
                 {
